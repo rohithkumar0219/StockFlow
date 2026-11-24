@@ -80,17 +80,22 @@ def get_current_user(
     return user
 
 
+def _post_neon_auth(endpoint: str, payload: dict) -> httpx.Response:
+    """Helper to post to Neon Auth with origin fallback if custom origin isn't whitelisted."""
+    headers = {"Origin": NEON_AUTH_ORIGIN}
+    resp = httpx.post(f"{NEON_AUTH_BASE_URL}{endpoint}", json=payload, headers=headers, timeout=10.0)
+    # If custom domain isn't added to Neon Auth trusted origins yet, fallback to localhost:5173
+    if resp.status_code == 403 and "Invalid origin" in resp.text:
+        resp = httpx.post(f"{NEON_AUTH_BASE_URL}{endpoint}", json=payload, headers={"Origin": "http://localhost:5173"}, timeout=10.0)
+    return resp
+
+
 def neon_auth_signup(email: str, password: str, name: str) -> dict:
     """Register a user in Neon Managed Better Auth."""
     if not NEON_AUTH_BASE_URL:
         return {}
     try:
-        resp = httpx.post(
-            f"{NEON_AUTH_BASE_URL}/sign-up/email",
-            json={"email": email, "password": password, "name": name},
-            headers={"Origin": NEON_AUTH_ORIGIN},
-            timeout=10.0,
-        )
+        resp = _post_neon_auth("/sign-up/email", {"email": email, "password": password, "name": name})
     except httpx.RequestError as exc:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
@@ -111,12 +116,7 @@ def neon_auth_signin(email: str, password: str) -> dict:
     if not NEON_AUTH_BASE_URL:
         return {}
     try:
-        resp = httpx.post(
-            f"{NEON_AUTH_BASE_URL}/sign-in/email",
-            json={"email": email, "password": password},
-            headers={"Origin": NEON_AUTH_ORIGIN},
-            timeout=10.0,
-        )
+        resp = _post_neon_auth("/sign-in/email", {"email": email, "password": password})
     except httpx.RequestError as exc:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,

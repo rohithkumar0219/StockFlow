@@ -6,4 +6,5 @@ python-dotenv
 httpx
 pyjwt
 bcrypt
+pydantic[email]
 pydantic

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: '#004ac6',
+              'primary-container': '#2563eb',
+              'on-primary': '#ffffff',
+              'on-primary-container': '#eeefff',
+              surface: '#f7f9fb',
+              'surface-low': '#f2f4f6',
+              'surface-container': '#eceef0',
+              'surface-container-high': '#e6e8ea',
+              'surface-container-highest': '#e0e3e5',
+              'surface-container-lowest': '#ffffff',
+              'on-surface': '#191c1e',
+              'on-surface-variant': '#434655',
+              outline: '#737686',
+              'outline-variant': '#c3c6d7',
+              error: '#ba1a1a',
+              'error-container': '#ffdad6',
+              'on-error-container': '#93000a',
+            },
+            fontFamily: {
+              sans: ['Geist', 'system-ui', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: 'Geist', system-ui, -apple-system, sans-serif;
+        background-color: #f7f9fb;
+        color: #191c1e;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+    </style>
+  </head>
+  <body class="bg-[#f7f9fb] text-[#191c1e] min-h-screen antialiased selection:bg-blue-100 selection:text-blue-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
